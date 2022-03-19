@@ -80,6 +80,11 @@ int main()
         detectMarkers(frame, dictionary, markerCorners, markerIds, parameters, rejectedCandidates);
         
         vector<Point> pts_dst;
+        // Enlarge source image size so that patterns are unseen.
+        Point_<float> pts_ctr = (markerCorners[0][0] + markerCorners[1][0] + markerCorners[2][0] + markerCorners[3][0]) / 4;
+        for (int i = 0; i < 4; i++) {
+            markerCorners[i][0] = markerCorners[i][0] * 1.05 - pts_ctr * 0.05;
+        }
         for (int m = 0; m < 4; m++) 
             for (int i = 0; i < markerCorners.size(); i++)
                 if (markerIds[i] == (31 + m)) pts_dst.push_back(markerCorners[i][0]);
